@@ -115,7 +115,7 @@
     key_name: pingcap
     group_id: "{{ security_group.group_id }}"
     instance_type: "{{ tikv_instance_type }}"
-    image: "{{ ami_info[0].ami_id }}"
+    image: "{{ ami_info.results[0].ami_id }}"
     wait: yes
     wait_timeout: 500
 #    volumes:
@@ -142,7 +142,7 @@
     key_name: pingcap
     group_id: "{{ security_group.group_id }}"
     instance_type: "{{ pd_instance_type }}"
-    image: "{{ ami_info[0].ami_id }}"
+    image: "{{ ami_info.results[0].ami_id }}"
     wait: yes
     wait_timeout: 500
     count: "{{pd_count}}"
@@ -164,7 +164,7 @@
     key_name: pingcap
     group_id: "{{ security_group.group_id }}"
     instance_type: "{{ tidb_instance_type }}"
-    image: "{{ ami_info[0].ami_id }}"
+    image: "{{ ami_info.results[0].ami_id }}"
     wait: yes
     wait_timeout: 500
     count: "{{ tidb_count }}"
@@ -186,7 +186,7 @@
     key_name: pingcap
     group_id: "{{ security_group.group_id }}"
     instance_type: "{{ monitoring_instance_type }}"
-    image: "{{ ami_info[0].ami_id }}"
+    image: "{{ ami_info.results[0].ami_id }}"
     wait: yes
     wait_timeout: 500
     count: "{{ monitoring_count }}"
