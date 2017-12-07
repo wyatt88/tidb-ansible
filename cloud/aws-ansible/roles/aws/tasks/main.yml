@@ -100,9 +100,9 @@
 
 - name: "AWS | Get AMI_ID in {{aws_region}}"
   ec2_ami_find:
-    owner: "aws-marketplace"
+    owner: "688023202711"
     region: "{{ aws_region }}"
-    product_code: "aw0evgkw8e5c1q413zgy5pjce"
+    name: "dcos-centos7-*"
     virtualization_type: hvm
     sort: creationDate
     sort_order: descending
