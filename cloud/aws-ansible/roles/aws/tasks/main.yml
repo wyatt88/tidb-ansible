@@ -34,7 +34,7 @@
         routes:
           - dest: 0.0.0.0/0
             gw: igw
-    region: {{ aws_region }}
+    region: "{{ aws_region }}"
   register: vpc
 
 # existing cluster
