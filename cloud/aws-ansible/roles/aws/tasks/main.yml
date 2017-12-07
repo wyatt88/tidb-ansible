@@ -10,7 +10,7 @@
       ManagedBy: tidb-ansible
       Creator: ansible-auto
     subnets:
-      - cidr: "{{vpc_octect}}.1.0/{{vpn_prefix - 1 }}" 
+      - cidr: "{{vpc_octect}}.1.0/24" 
         az: "{{ aws_region }}a"
         resource_tags:
           Name: pingcap-subnet-1a
@@ -18,7 +18,7 @@
           ManagedBy: tidb-ansible
           Creator: ansible-auto
           Tier: "db"
-      - cidr: "{{vpc_octect}}.2.0/{{ vpn_prefix - 1 }}" 
+      - cidr: "{{vpc_octect}}.2.0/24" 
         az: "{{ aws_region }}b"
         resource_tags:
           Name: pingcap-subnet-1b
@@ -29,8 +29,8 @@
     internet_gateway: yes       # assign internet
     route_tables:
       - subnets:
-          - "{{vpc_octect}}.1.0/{{vpn_prefix - 1 }}"
-          - "{{vpc_octect}}.2.0/{{vpn_prefix - 1 }}" 
+          - "{{vpc_octect}}.1.0/24"
+          - "{{vpc_octect}}.2.0/24" 
         routes:
           - dest: 0.0.0.0/0
             gw: igw
