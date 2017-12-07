@@ -102,7 +102,7 @@
   ec2_ami_find:
     owner: "aws-marketplace"
     region: "{{ aws_region }}"
-    name: "dcos-centos7-*"
+    product_code: "aw0evgkw8e5c1q413zgy5pjce"
     virtualization_type: hvm
     sort: creationDate
     sort_order: descending
