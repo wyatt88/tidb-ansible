@@ -125,8 +125,7 @@
         delete_on_termination: true
       - device_name: /dev/sdb
         volume_type: ephemeral
-        ephemeral: ephemeral1
-        volume_size: 20
+        ephemeral: ephemeral0
     instance_tags:
       Name: tikv-by-{{ creator }}
       ManagedBy: "{{ managed_by }}"
@@ -156,8 +155,7 @@
         delete_on_termination: true
       - device_name: /dev/sdb
         volume_type: ephemeral
-        ephemeral: ephemeral1
-        volume_size: 20
+        ephemeral: ephemeral0
     instance_tags:
       Name: pd-by-{{ creator }}
       ManagedBy: "{{ managed_by }}"
