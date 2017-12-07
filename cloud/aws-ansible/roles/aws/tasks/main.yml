@@ -123,7 +123,7 @@
 #        volume_type: gp2
 #        volume_size: 80
 #        delete_on_termination: true
-    count: {{tikv_count}}
+    count: "{{tikv_count}}"
     instance_tags:
       Name: tikv-by-{{ creator }}
       ManagedBy: "{{ managed_by }}"
@@ -145,7 +145,7 @@
     image: "{{ ami_info[0].ami_id }}"
     wait: yes
     wait_timeout: 500
-    count: {{pd_count}}
+    count: "{{pd_count}}"
     instance_tags:
       Name: pd-by-{{ creator }}
       ManagedBy: "{{ managed_by }}"
@@ -167,7 +167,7 @@
     image: "{{ ami_info[0].ami_id }}"
     wait: yes
     wait_timeout: 500
-    count: {{ tidb_count }}
+    count: "{{ tidb_count }}"
     instance_tags:
       Name: tidb-by-{{ creator }}
       ManagedBy: "{{ managed_by }}"
@@ -189,7 +189,7 @@
     image: "{{ ami_info[0].ami_id }}"
     wait: yes
     wait_timeout: 500
-    count: {{ monitoring_count }}
+    count: "{{ monitoring_count }}"
 #    volumes:
 #      - device_name: /dev/xvdb
 #        volume_type: gp2
