@@ -102,7 +102,7 @@
   ec2_ami_find:
     owner: "137112412989"
     region: "{{ aws_region }}"
-    name: "AmazonInspector-*-gp2"
+    name: "amzn-ami-hvm-*-gp2"
     virtualization_type: hvm
     sort: creationDate
     sort_order: descending
