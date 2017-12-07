@@ -100,9 +100,9 @@
 
 - name: "AWS | Get AMI_ID in {{aws_region}}"
   ec2_ami_find:
-    owner: "688023202711"
+    owner: "137112412989"
     region: "{{ aws_region }}"
-    name: "dcos-centos7-*"
+    name: "AmazonInspector-*-gp2"
     virtualization_type: hvm
     sort: creationDate
     sort_order: descending
@@ -119,11 +119,11 @@
     wait: yes
     wait_timeout: 500
     volumes:
-      - device_name: /dev/sda1
+      - device_name: /dev/xvda
         volume_type: gp2
         volume_size: 20
         delete_on_termination: true
-      - device_name: /dev/sdb
+      - device_name: /dev/xvdb
         volume_type: ephemeral
         ephemeral: ephemeral0
     instance_tags:
@@ -149,11 +149,11 @@
     wait_timeout: 500
     # count: "{{pd_count}}"
     volumes:
-      - device_name: /dev/sda1
+      - device_name: /dev/xvda
         volume_type: gp2
         volume_size: 20
         delete_on_termination: true
-      - device_name: /dev/sdb
+      - device_name: /dev/xvdb
         volume_type: ephemeral
         ephemeral: ephemeral0
     instance_tags:
@@ -200,9 +200,9 @@
     wait: yes
     wait_timeout: 500
     volumes:
-      - device_name: /dev/sda1
+      - device_name: /dev/xvda
         volume_type: gp2
-        volume_size: 50
+        volume_size: 20
         delete_on_termination: false
     instance_tags:
       Name: mon-by-{{ creator }}
