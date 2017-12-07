@@ -118,11 +118,15 @@
     image: "{{ ami_info.results[0].ami_id }}"
     wait: yes
     wait_timeout: 500
-#    volumes:
-#      - device_name: /dev/xvdb
-#        volume_type: gp2
-#        volume_size: 80
-#        delete_on_termination: true
+    volumes:
+      - device_name: /dev/sda1
+        volume_type: gp2
+        volume_size: 20
+        delete_on_termination: true
+      - device_name: /dev/sdb
+        volume_type: ephemeral
+        ephemeral: ephemeral1
+        volume_size: 20
     instance_tags:
       Name: tikv-by-{{ creator }}
       ManagedBy: "{{ managed_by }}"
@@ -145,6 +149,15 @@
     wait: yes
     wait_timeout: 500
     # count: "{{pd_count}}"
+    volumes:
+      - device_name: /dev/sda1
+        volume_type: gp2
+        volume_size: 20
+        delete_on_termination: true
+      - device_name: /dev/sdb
+        volume_type: ephemeral
+        ephemeral: ephemeral1
+        volume_size: 20
     instance_tags:
       Name: pd-by-{{ creator }}
       ManagedBy: "{{ managed_by }}"
@@ -188,12 +201,11 @@
     image: "{{ ami_info.results[0].ami_id }}"
     wait: yes
     wait_timeout: 500
-    # count: "{{ monitoring_count }}"
-#    volumes:
-#      - device_name: /dev/xvdb
-#        volume_type: gp2
-#        volume_size: 50
-#        delete_on_termination: false
+    volumes:
+      - device_name: /dev/sda1
+        volume_type: gp2
+        volume_size: 50
+        delete_on_termination: false
     instance_tags:
       Name: mon-by-{{ creator }}
       ManagedBy: "{{ managed_by }}"
