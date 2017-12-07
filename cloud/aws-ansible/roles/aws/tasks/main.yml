@@ -4,7 +4,7 @@
 - name: vpc setup
   ec2_vpc:
     state: present
-    cidr_block: {{ vpc_cidr_block }}
+    cidr_block: "{{ vpc_cidr_block }}"
     resource_tags:
       Name: pingcap-vpc-ansible
       ManagedBy: tidb-ansible
@@ -14,7 +14,7 @@
         az: "{{ aws_region }}a"
         resource_tags:
           Name: pingcap-subnet-1a
-          Environment: {{ environment }}
+          Environment: "{{ environment }}"
           ManagedBy: tidb-ansible
           Creator: ansible-auto
           Tier: "db"
@@ -22,7 +22,7 @@
         az: "{{ aws_region }}b"
         resource_tags:
           Name: pingcap-subnet-1b
-          Environment: {{ environment }}
+          Environment: "{{ environment }}"
           ManagedBy: tidb-ansible
           Creator: ansible-auto
           Tier: "db"
@@ -52,7 +52,7 @@
       - proto: -1
         from_port: 0
         to_port: 0
-        cidr_ip: {{ vpc_cidr_block }}
+        cidr_ip: "{{ vpc_cidr_block }}"
       - proto: tcp
         from_port: 22
         to_port: 22
@@ -95,13 +95,13 @@
         from_port: 0
         to_port: 0
         cidr_ip: 0.0.0.0/0
-    region: {{ aws_region }}
+    region: "{{ aws_region }}"
   register: security_group
 
 - name: "AWS | Get AMI_ID in {{aws_region}}"
   ec2_ami_find:
     owner: "aws-marketplace"
-    region: {{ aws_region }}
+    region: "{{ aws_region }}"
     name: "dcos-centos7-*"
     virtualization_type: hvm
     sort: creationDate
@@ -111,7 +111,7 @@
 
 - name: tikv servers
   ec2:
-    region: {{ aws_region }}
+    region: "{{ aws_region }}"
     key_name: pingcap
     group_id: "{{ security_group.group_id }}"
     instance_type: "{{ tikv_instance_type }}"
@@ -138,7 +138,7 @@
 
 - name: pd servers
   ec2:
-    region: {{ aws_region }}
+    region: "{{ aws_region }}"
     key_name: pingcap
     group_id: "{{ security_group.group_id }}"
     instance_type: "{{ pd_instance_type }}"
@@ -160,7 +160,7 @@
 
 - name: tidb servers
   ec2:
-    region: {{ aws_region }}
+    region: "{{ aws_region }}"
     key_name: pingcap
     group_id: "{{ security_group.group_id }}"
     instance_type: "{{ tidb_instance_type }}"
@@ -182,7 +182,7 @@
 
 - name: monitoring servers
   ec2:
-    region: {{ aws_region }}
+    region: "{{ aws_region }}"
     key_name: pingcap
     group_id: "{{ security_group.group_id }}"
     instance_type: "{{ monitoring_instance_type }}"
