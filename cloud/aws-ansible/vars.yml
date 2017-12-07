@@ -20,7 +20,7 @@ vpc_cidr_block: "{{vpc_octect}}.0.0/{{vpc_net_prefix}}"
 # ubuntu 16.04, hvm-ssd
 # image_ami: ami-a0e136cd
 
-image_ami: ami-0220b23b
+# image_ami: ami-0220b23b
 
 ## Instance Types
 # m3.medium: 4core 16G
