@@ -3,8 +3,7 @@
 # VPC Vars
 
 vpc_id: ""
-vpc_public_subnet_id: ""
-vpc_private_subnet_id: ""
+vpc_subnet_id: ""
 
 ## Instance Types
 # m3.medium: 4core 16G
