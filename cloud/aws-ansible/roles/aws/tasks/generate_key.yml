@@ -1,0 +1,6 @@
+---
+
+- name: "AWS | General SSH RSA Key"
+  command: ssh-keygen -t rsa -f ~/.ssh/id_rsa -N ''
+  args:
+    creates: ~/.ssh/id_rsa
