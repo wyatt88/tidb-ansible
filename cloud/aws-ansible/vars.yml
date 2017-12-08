@@ -1,26 +1,10 @@
 ---
 
 # VPC Vars
-## network address (Must be private IPv4 address)
-vpc_octect: 10.233
-## network prefix (prefix between 16 and 28)
-vpc_net_prefix: 16
-## cidr_block
-vpc_cidr_block: "{{vpc_octect}}.0.0/{{vpc_net_prefix}}"
-## subnets
 
-# EC2 Instance Vars
-## AMI Images
-# CentOS 7
-# image_ami: ami-c9a06aa4
-# Ubuntu 14.04
-# image_ami: ami-0220b23b
-# CoreOS
-# image_ami: ami-1ce93d71
-# ubuntu 16.04, hvm-ssd
-# image_ami: ami-a0e136cd
-
-# image_ami: ami-0220b23b
+vpc_id: ""
+vpc_public_subnet_id: ""
+vpc_private_subnet_id: ""
 
 ## Instance Types
 # m3.medium: 4core 16G
@@ -45,7 +29,7 @@ aws_region: '{{ lookup("env","REGION")|default("cn-north-1") }}'
 
 # TiDB Cluster Vars
 environment: "test"
-tikv_count: 1
+tikv_count: 3
 pd_count: 1
 
 tidb_count: 1

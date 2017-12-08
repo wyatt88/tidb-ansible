@@ -13,15 +13,15 @@
 #       - cidr: "{{vpc_octect}}.1.0/24" 
 #         az: "{{ aws_region }}a"
 #         resource_tags:
-#           Name: pingcap-subnet-1a
+#           Name: pingcap-subnet-public
 #           Environment: "{{ environment }}"
 #           ManagedBy: tidb-ansible
 #           Creator: ansible-auto
 #           Tier: "db"
 #       - cidr: "{{vpc_octect}}.2.0/24" 
-#         az: "{{ aws_region }}b"
+#         az: "{{ aws_region }}a"
 #         resource_tags:
-#           Name: pingcap-subnet-1b
+#           Name: pingcap-subnet-private
 #           Environment: "{{ environment }}"
 #           ManagedBy: tidb-ansible
 #           Creator: ansible-auto
@@ -36,6 +36,7 @@
 #             gw: igw
 #     region: "{{ aws_region }}"
 #   register: vpc
+
 - name: "AWS | Generate SSH Key"
   include: grenerate_key.yml
 
@@ -50,6 +51,7 @@
     state: present
     name: "ansible-sg-by-{{ managed_by }}"
     description: vpc security group by {{ creator }}
+    vpc_id: "{{ vpc_id }}"
     rules:
       - proto: tcp
         from_port: 0
@@ -141,7 +143,7 @@
       Type: tikv
       ManagedBy: "{{ managed_by }}"
     exact_count: "{{ tikv_count }}"
-    vpc_subnet_id: "{{ vpc.subnets[0].id }}"
+    vpc_subnet_id: "{{ vpc_subnet_id }}"
     assign_public_ip: yes
 
 - name: pd servers
@@ -153,7 +155,6 @@
     image: "{{ ami_info.results[0].ami_id }}"
     wait: yes
     wait_timeout: 500
-    # count: "{{pd_count}}"
     volumes:
       - device_name: /dev/xvda
         volume_type: gp2
@@ -171,8 +172,7 @@
       Type: pd
       ManagedBy: "{{ managed_by }}"
     exact_count: "{{ pd_count }}"
-    vpc_subnet_id: "{{ vpc.subnets[0].id }}"
-    assign_public_ip: yes
+    vpc_subnet_id: "{{ vpc_subnet_id }}"
 
 - name: tidb servers
   ec2:
@@ -183,7 +183,6 @@
     image: "{{ ami_info.results[0].ami_id }}"
     wait: yes
     wait_timeout: 500
-    # count: "{{ tidb_count }}"
     instance_tags:
       Name: tidb-by-{{ creator }}
       ManagedBy: "{{ managed_by }}"
@@ -193,8 +192,7 @@
       Type: tidb
       ManagedBy: "{{ managed_by }}"
     exact_count: "{{ tidb_count }}"
-    vpc_subnet_id: "{{ vpc.subnets[0].id }}"
-    assign_public_ip: yes
+    vpc_subnet_id: "{{ vpc_subnet_id }}"
 
 - name: monitoring servers
   ec2:
@@ -214,10 +212,11 @@
       Name: mon-by-{{ creator }}
       ManagedBy: "{{ managed_by }}"
       Creator: "{{ creator }}"
+      Role: bastion
       Type: monitoring
     count_tag:
       Type: monitoring
       ManagedBy: "{{ managed_by }}"
     exact_count: "{{ monitoring_count }}"
-    vpc_subnet_id: "{{ vpc.subnets[0].id }}"
-    assign_public_ip: yes
+    vpc_subnet_id: "{{ vpc_subnet_id }}"
+
