@@ -19,26 +19,32 @@ class SearchEC2Tags(object):
 
     parser = argparse.ArgumentParser()
     parser.add_argument('--list', action='store_true', default=False, help='List instances')
+    parser.add_argument('--host', action='store_true', help='Get all the variables about a specific instance')
     self.args = parser.parse_args()
 
   def search_tags(self):
     hosts = {}
     hosts['_meta'] = { 'hostvars': {} }
-
+    hosts['all'] = {
+      "vars": {
+        "ansible_user": "ec2-user",
+        
+      }
+    }
     for group in ["tidb", "tikv", "pd","monitor"]:
-      hosts[group] = []
+      hosts[group+"_servers"] = []
       tag_key = "Type"
-      tag_value = ["group"]
+      tag_value = [group]
       region = os.environ['REGION']
 
       ec2 = boto3.resource('ec2', region)
 
       instances = ec2.instances.filter(Filters=[{'Name': 'tag:'+tag_key, 'Values': tag_value}, {'Name': 'instance-state-name', 'Values': ['running']}])
       for instance in instances:
-          hosts[group+"_servers"].append(private_ip_address)
-          hosts['_meta']['hostvars'][private_ip_address] = {
+          hosts[group+"_servers"].append(instance.private_ip_address)
+          hosts['_meta']['hostvars'][instance.private_ip_address] = {
              'ansible_ssh_host': instance.private_ip_address
-
+          }
     hosts['monitored_servers'] = {'children':['tidb_servers', 'tikv_servers','pd_servers','spark_master','spark_slaves']}
     print json.dumps(hosts, sort_keys=True, indent=2)
 

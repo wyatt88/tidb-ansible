@@ -38,13 +38,22 @@
 #   register: vpc
 
 - name: "AWS | Generate SSH Key"
-  include: grenerate_key.yml
+  include: generate_key.yml
 
 - name: "AWS | Import SSH Plubic Key to AWS"
   ec2_key:
     name: pingcap
     key_material: "{{ item }}"
-  with_file: ~/.ssh/.id_rsa.pub
+    region: "{{ aws_region }}"
+    state: present
+  with_file: ~/.ssh/aws.id_rsa.pub
+
+- name: "AWS | Get VPC CIDR Block"
+  ec2_vpc_net_facts:
+    region: "{{ aws_region }}"
+    filters:
+      vpc-id: "{{ vpc_id }}"
+  register: net_facts
 # existing cluster
 - name: tidb cluster group
   ec2_group:
@@ -60,7 +69,7 @@
       - proto: -1
         from_port: 0
         to_port: 0
-        cidr_ip: "{{ vpc_cidr_block }}"
+        cidr_ip: "{{ net_facts.vpcs[0].cidr_block }}"
       - proto: tcp
         from_port: 22
         to_port: 22
@@ -144,7 +153,6 @@
       ManagedBy: "{{ managed_by }}"
     exact_count: "{{ tikv_count }}"
     vpc_subnet_id: "{{ vpc_private_subnet_id }}"
-    assign_public_ip: yes
 
 - name: pd servers
   ec2:
