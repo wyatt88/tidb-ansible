@@ -143,7 +143,7 @@
       Type: tikv
       ManagedBy: "{{ managed_by }}"
     exact_count: "{{ tikv_count }}"
-    vpc_subnet_id: "{{ vpc_subnet_id }}"
+    vpc_subnet_id: "{{ vpc_private_subnet_id }}"
     assign_public_ip: yes
 
 - name: pd servers
@@ -172,7 +172,7 @@
       Type: pd
       ManagedBy: "{{ managed_by }}"
     exact_count: "{{ pd_count }}"
-    vpc_subnet_id: "{{ vpc_subnet_id }}"
+    vpc_subnet_id: "{{ vpc_private_subnet_id }}"
 
 - name: tidb servers
   ec2:
@@ -192,7 +192,7 @@
       Type: tidb
       ManagedBy: "{{ managed_by }}"
     exact_count: "{{ tidb_count }}"
-    vpc_subnet_id: "{{ vpc_subnet_id }}"
+    vpc_subnet_id: "{{ vpc_private_subnet_id }}"
 
 - name: monitoring servers
   ec2:
@@ -218,5 +218,5 @@
       Type: monitoring
       ManagedBy: "{{ managed_by }}"
     exact_count: "{{ monitoring_count }}"
-    vpc_subnet_id: "{{ vpc_subnet_id }}"
+    vpc_subnet_id: "{{ vpc_private_subnet_id }}"
 
