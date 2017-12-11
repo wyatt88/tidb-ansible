@@ -24,8 +24,16 @@ aws_access_key_id: '{{ lookup("env","AWS_ACCESS_KEY_ID") }}'
 aws_secret_access_key: '{{ lookup("env","AWS_SECRET_ACCESS_KEY") }}'
 aws_region: '{{ lookup("env","REGION")|default("cn-north-1") }}'
 
-## 
+## TiKV Volumes
+tikv_data_volume:
+  device_name: /dev/xvdb
+  volume_type: ephemeral
+  ephemeral: ephemeral0
 
+pd_data_volume:
+  device_name: /dev/xvdb
+  volume_type: ephemeral
+  ephemeral: ephemeral0
 # TiDB Cluster Vars
 environment: "test"
 tikv_count: 3

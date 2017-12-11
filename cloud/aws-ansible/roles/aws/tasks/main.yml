@@ -1,42 +1,5 @@
 ---
 
-# all cluster use a single vpc
-# - name: vpc setup
-#   ec2_vpc:
-#     state: present
-#     cidr_block: "{{ vpc_cidr_block }}"
-#     resource_tags:
-#       Name: pingcap-vpc-ansible
-#       ManagedBy: tidb-ansible
-#       Creator: ansible-auto
-#     subnets:
-#       - cidr: "{{vpc_octect}}.1.0/24" 
-#         az: "{{ aws_region }}a"
-#         resource_tags:
-#           Name: pingcap-subnet-public
-#           Environment: "{{ environment }}"
-#           ManagedBy: tidb-ansible
-#           Creator: ansible-auto
-#           Tier: "db"
-#       - cidr: "{{vpc_octect}}.2.0/24" 
-#         az: "{{ aws_region }}a"
-#         resource_tags:
-#           Name: pingcap-subnet-private
-#           Environment: "{{ environment }}"
-#           ManagedBy: tidb-ansible
-#           Creator: ansible-auto
-#           Tier: "db"
-#     internet_gateway: yes       # assign internet
-#     route_tables:
-#       - subnets:
-#           - "{{vpc_octect}}.1.0/24"
-#           - "{{vpc_octect}}.2.0/24" 
-#         routes:
-#           - dest: 0.0.0.0/0
-#             gw: igw
-#     region: "{{ aws_region }}"
-#   register: vpc
-
 - name: "AWS | Generate SSH Key"
   include: generate_key.yml
 
@@ -140,9 +103,9 @@
         volume_type: gp2
         volume_size: 20
         delete_on_termination: true
-      - device_name: /dev/xvdb
-        volume_type: ephemeral
-        ephemeral: ephemeral0
+      - device_name: "{{tikv_data_volume.device_name}}"
+        volume_type: "{{tikv_data_volume.volume_type}}"
+        ephemeral: "{{tikv_data_volume.ephemeral}}"
     instance_tags:
       Name: tikv-by-{{ creator }}
       ManagedBy: "{{ managed_by }}"
@@ -168,9 +131,9 @@
         volume_type: gp2
         volume_size: 20
         delete_on_termination: true
-      - device_name: /dev/xvdb
-        volume_type: ephemeral
-        ephemeral: ephemeral0
+      - device_name: "{{pd_data_volume.device_name}}"
+        volume_type: "{{pd_data_volume.volume_type}}"
+        ephemeral: "{{pd_data_volume.ephemeral}}"
     instance_tags:
       Name: pd-by-{{ creator }}
       ManagedBy: "{{ managed_by }}"

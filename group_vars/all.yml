@@ -17,3 +17,42 @@ docker_bin_dir: "/usr/bin"
 
 # Adjust time server
 # time_server: pool.ntp.org
+
+deploy_dir: /home/tidb/deploy
+
+## Connection
+# ssh via root:
+# ansible_user: root
+# ansible_become: true
+# ansible_become_user: tidb
+
+# ssh via normal user
+ansible_user: tidb
+
+cluster_name: test-cluster
+
+tidb_version: latest
+
+# deployment methods, [binary, docker]
+deployment_method: binary
+
+# process supervision, [systemd, supervise]
+process_supervision: systemd
+
+# timezone of deployment region
+timezone: Asia/Shanghai
+
+# misc
+enable_elk: False
+enable_firewalld: False
+enable_ntpd: True
+machine_benchmark: True
+set_hostname: False
+
+# binlog trigger
+enable_binlog: False
+# store slow query log into seperate file
+enable_slow_query_log: False
+
+cloud_provider:
+

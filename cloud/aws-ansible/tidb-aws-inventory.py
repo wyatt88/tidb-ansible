@@ -31,7 +31,7 @@ class SearchEC2Tags(object):
         
       }
     }
-    for group in ["tidb", "tikv", "pd","monitor"]:
+    for group in ["tidb", "tikv", "pd","monitoring"]:
       hosts[group+"_servers"] = []
       tag_key = "Type"
       tag_value = [group]
@@ -41,6 +41,11 @@ class SearchEC2Tags(object):
 
       instances = ec2.instances.filter(Filters=[{'Name': 'tag:'+tag_key, 'Values': tag_value}, {'Name': 'instance-state-name', 'Values': ['running']}])
       for instance in instances:
+          if group == "monitoring":
+            hosts['grafana_servers'].append(instance.private_ip_address)
+            hosts['_meta']['hostvars'][instance.private_ip_address] = {
+             'ansible_ssh_host': instance.private_ip_address
+            }
           hosts[group+"_servers"].append(instance.private_ip_address)
           hosts['_meta']['hostvars'][instance.private_ip_address] = {
              'ansible_ssh_host': instance.private_ip_address

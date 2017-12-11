@@ -1,0 +1,17 @@
+---
+
+- name: "AWS | Bootstrap Mount {{tikv_data_dir}}"
+  mount:
+    path: "{{ tikv_data_dir }}"
+    src: /dev/xvdb
+    fstype: ext4
+    state: present
+  when: inventory_hostname in groups['tikv_servers']
+
+- name: "AWS | Bootstrap Mount {{pd_data_dir}}"
+  mount:
+    path: "{{ pd_data_dir }}"
+    src: /dev/xvdb
+    fstype: ext4
+    state: present
+  when: inventory_hostname in groups['pd_servers']

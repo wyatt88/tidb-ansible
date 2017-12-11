@@ -20,6 +20,12 @@
   roles:
     - check_config_static
 
+- name: aws prepare
+  hosts: pd_servers,tikv_servers
+  gather_facts: false
+  roles:
+    - { role: bootstrap_aws, when: cloud_provider == "aws" }
+
 - name: check node config
   hosts: all
   gather_facts: false
